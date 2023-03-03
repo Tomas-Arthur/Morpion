@@ -28,7 +28,6 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
-			Button bouton = new Button();
 			test(scene);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -36,9 +35,9 @@ public class Main extends Application {
 	}
 	
 	public void test(Scene scene) {
-		Button bouton = (Button) scene.lookup("#bouton lancer");
+		Button bouton = (Button) scene.lookup("#bouton1");
 		bouton.setOnMouseClicked(event ->{
-			bouton.setText("salut");
+			bouton.setText("---");
 		});
 	}
 	
