@@ -1,11 +1,13 @@
 package application;
-	
+import ai.Test;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -35,9 +37,13 @@ public class Main extends Application {
 	}
 	
 	public void test(Scene scene) {
-		Button bouton = (Button) scene.lookup("#bouton1");
-		bouton.setOnMouseClicked(event ->{
-			bouton.setText("---");
+		Label avancement = (Label) scene.lookup("#avancement");
+		Button lancer = (Button) scene.lookup("#lancer");
+		lancer.setOnMouseClicked(event ->{
+			avancement.setText("---");
+			String args[] = null;
+			Test.main(args);
+			avancement.setText("Fin");
 		});
 	}
 	

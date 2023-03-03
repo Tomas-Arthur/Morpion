@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button id="lancer" layoutX="344.0" layoutY="65.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="110.0" text="Lancer" />
+         </children>
+      </AnchorPane>
+   </top>
    <center>
-      <Button id="bouton1" mnemonicParsing="false" text="Lancer L'application" BorderPane.alignment="CENTER" />
+      <Label id="avancement" alignment="CENTER" prefHeight="18.0" prefWidth="135.0" text="..." BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
