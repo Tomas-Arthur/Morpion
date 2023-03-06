@@ -17,30 +17,30 @@ public class Test {
 			//
 			// LOAD DATA ...
 			//
-			HashMap<Integer, Coup> coups = loadGames("./resources/dataset/Tic_tac_initial_results.csv");
-			saveGames(coups, "./resources/train_dev_test/", 0.7);
+			HashMap<Integer, Coup> coups = loadGames("./Morpion/resources/dataset/Tic_tac_initial_results.csv");
+			saveGames(coups, "./Morpion/resources/train_dev_test/", 0.7);
 			//
 			// LOAD CONFIG ...
 			//
 			ConfigFileLoader cfl = new ConfigFileLoader();
-			cfl.loadConfigFile("./resources/config.txt");
+			cfl.loadConfigFile("./Morpion/resources/config.txt");
 			Config config = cfl.get("F");
 			System.out.println("Test.main() : "+config);
 			//
 			//TRAIN THE MODEL ...
 			//
 			double epochs = 10000 ;
-			HashMap<Integer, Coup> mapTrain = loadCoupsFromFile("./resources/train_dev_test/train.txt");
+			HashMap<Integer, Coup> mapTrain = loadCoupsFromFile("./Morpion/resources/train_dev_test/train.txt");
 			MultiLayerPerceptron net = learn(9, mapTrain, config.hiddenLayerSize, config.learningRate, config.numberOfhiddenLayers, true, epochs);
 			//
 			//PLAY ...
 			//
-			HashMap<Integer, Coup> mapDev = loadCoupsFromFile("./resources/train_dev_test/dev.txt");
+			HashMap<Integer, Coup> mapDev = loadCoupsFromFile("./Morpion/resources/train_dev_test/dev.txt");
 			Coup c = mapTrain.get((int)(Math.round(Math.random() * mapDev.size())));
 			double[] res = play(net, c);
 			System.out.println("Dev predicted: "+Arrays.toString(res) + " -> true: "+ Arrays.toString(c.out));
 			//
-			HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./resources/train_dev_test/test.txt");
+			HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./Morpion/resources/train_dev_test/test.txt");
 			c = mapTrain.get((int)(Math.round(Math.random() * mapTest.size())));
 			res = play(net, c);
 			System.out.println("Test predicted: "+Arrays.toString(res) + " -> true: "+ Arrays.toString(c.out));
@@ -80,7 +80,6 @@ public class Test {
 			}
 			//TRAINING ...
 			for(int i = 0; i < epochs; i++){
-
 				Coup c = null ;
 				while ( c == null )
 					c = mapTrain.get((int)(Math.round(Math.random() * mapTrain.size())));
@@ -312,9 +311,9 @@ public class Test {
 
 			System.out.println("---");
 			System.out.println("Load data ...");
-			HashMap<Integer, Coup> mapTrain = loadCoupsFromFile("./resources/train_dev_test/train.txt");
-			HashMap<Integer, Coup> mapDev = loadCoupsFromFile("./resources/train_dev_test/dev.txt");
-			HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./resources/train_dev_test/test.txt");
+			HashMap<Integer, Coup> mapTrain = loadCoupsFromFile("./Morpion/resources/train_dev_test/train.txt");
+			HashMap<Integer, Coup> mapDev = loadCoupsFromFile("./Morpion/resources/train_dev_test/dev.txt");
+			HashMap<Integer, Coup> mapTest = loadCoupsFromFile("./Morpion/resources/train_dev_test/test.txt");
 			System.out.println("---");
 			//TRAINING ...
 			for(int i = 0; i < epochs; i++){
@@ -350,6 +349,7 @@ public class Test {
 
 			//TRAINING ...
 			for(int i = 0; i < samples; i++){
+				
 				double[] inputs = new double[]{Math.round(Math.random()), Math.round(Math.random())};
 				double[] output = new double[1];
 
@@ -381,4 +381,7 @@ public class Test {
 			System.exit(-1);
 		}
 	}
+
+	
+	
 }
