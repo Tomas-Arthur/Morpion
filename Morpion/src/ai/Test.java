@@ -9,8 +9,12 @@ import java.util.Arrays;
 //
 import java.util.HashMap;
 
+import application.Main;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 
-public class Test {
+
+public class Test{
 
 	public static void main(String[] args) {
 		try {
@@ -86,7 +90,13 @@ public class Test {
 
 				error += net.backPropagate(c.in, c.out);
 
-				if ( i % 10000 == 0 && verbose) System.out.println("Error at step "+i+" is "+ (error/(double)i));
+				if ( i % 10000 == 0 && verbose) {
+					System.out.println("Error at step "+i+" is "+ (error/(double)i));
+					
+					
+					
+				}
+				
 			}
 			if ( verbose ) 
 				System.out.println("Learning completed!");
@@ -382,6 +392,4 @@ public class Test {
 		}
 	}
 
-	
-	
 }

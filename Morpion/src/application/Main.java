@@ -3,6 +3,7 @@ import ai.Test;
 
 import javafx.application.Application;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -15,6 +16,8 @@ import javafx.scene.layout.BorderPane;
 
 public class Main extends Application implements Runnable{
 
+	static Scene scene;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -31,6 +34,7 @@ public class Main extends Application implements Runnable{
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
+			this.scene=scene;
 			test(scene);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -45,7 +49,9 @@ public class Main extends Application implements Runnable{
 	     
 		
 		Button lancer = (Button) scene.lookup("#lancer");
+
 		lancer.setOnMouseClicked(event ->{
+
 			Task<Integer> task = new Task<Integer>() {
 	         @Override protected Integer call() throws Exception {
 	             int iterations;
@@ -80,6 +86,12 @@ public class Main extends Application implements Runnable{
 			//t.start();
 			//t.run();
 		});
+		
+	}
+	
+	public static void action (String s) {
+		Label avancement = (Label) scene.lookup("#avancement");
+		avancement.setText(s);
 	}
 	
 	public static void main(String[] args) {
