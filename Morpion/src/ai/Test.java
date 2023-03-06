@@ -9,8 +9,13 @@ import java.util.Arrays;
 //
 import java.util.HashMap;
 
+import application.Main;
+import application.Tache;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 
-public class Test {
+
+public class Test{
 
 	public static void main(String[] args) {
 		try {
@@ -87,7 +92,18 @@ public class Test {
 
 				error += net.backPropagate(c.in, c.out);
 
-				if ( i % 10000 == 0 && verbose) System.out.println("Error at step "+i+" is "+ (error/(double)i));
+				if ( i % 10000 == 0 && verbose) {
+					System.out.println("Error at step "+i+" is "+ (error/(double)i));
+					
+					Tache t = Tache.recupTache();
+					if (t!=null) {
+						Scene scene = t.getScene();
+						t.setMess("Error at step "+i+" is "+ (error/(double)i));
+						Label avancement = (Label) scene.lookup("#avancement");
+						avancement.setText("Error at step "+i+" is "+ (error/(double)i));
+					}
+				}
+				
 			}
 			if ( verbose ) 
 				System.out.println("Learning completed!");
@@ -381,4 +397,5 @@ public class Test {
 			System.exit(-1);
 		}
 	}
+
 }

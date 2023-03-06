@@ -2,6 +2,7 @@ package application;
 import ai.Test;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -14,6 +15,8 @@ import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
 
+	static Scene scene;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -30,6 +33,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
+			this.scene=scene;
 			test(scene);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -39,12 +43,17 @@ public class Main extends Application {
 	public void test(Scene scene) {
 		Label avancement = (Label) scene.lookup("#avancement");
 		Button lancer = (Button) scene.lookup("#lancer");
+
 		lancer.setOnMouseClicked(event ->{
-			avancement.setText("---");
-			String args[] = null;
-			Test.main(args);
-			avancement.setText("Fin");
+			Tache t = Tache.creerTache(scene);
+			new Thread(t).start();
 		});
+		
+	}
+	
+	public static void action (String s) {
+		Label avancement = (Label) scene.lookup("#avancement");
+		avancement.setText(s);
 	}
 	
 	public static void main(String[] args) {
