@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -45,27 +47,32 @@ public class Main extends Application implements Runnable{
 	public void test(Scene scene) {
 		
 		
-	     Label avancement = (Label) scene.lookup("#avancement");
-	     
-	     
-		
-		Button lancer = (Button) scene.lookup("#lancer");
+		Label avancementDuLearn = (Label) scene.lookup("#avancementDuLearn"); 
+		Button lancerDuLearn = (Button) scene.lookup("#lancerDuLearn");
+		ProgressBar progressBarDuLearn = (ProgressBar) scene.lookup("#progressBarDuLearn");
+		ProgressIndicator progressIndicatorDuLearn = (ProgressIndicator) scene.lookup("#progressIndicatorDuLearn");
+		progressBarDuLearn.setProgress(0.0F);
+		progressIndicatorDuLearn.setProgress(0.0F);
 
-		lancer.setOnMouseClicked(event ->{
+		//si le bouton est appuye
+		lancerDuLearn.setOnMouseClicked(event ->{
 
 			Task<Void> task = new Task<Void>() {
 	         @Override protected Void call() throws Exception {
-	             int iterations=0;
+	             //int iterations=0;
 	             Test.main(null);
 	             Platform.runLater(new Runnable() {
 						public void run() {
-							avancement.setText("Fin");
+							avancementDuLearn.setText("Fin");
 						}
 					});
 	             Thread.sleep(1000);
 	             Platform.runLater(new Runnable() {
 					public void run() {
-						avancement.setText("...");
+						avancementDuLearn.setText("...");
+						progressBarDuLearn.setProgress(0.0F);
+						progressIndicatorDuLearn.setProgress(0.0F);
+						lancerDuLearn.setDisable(false);
 					}
 				});
 	             /*for (iterations = 0; iterations < 10000000; iterations++) {
@@ -82,29 +89,31 @@ public class Main extends Application implements Runnable{
 				return null;
 	         }
 	     };
+	     /*
 	     task.progressProperty().addListener((observable, oldValue, newValue) -> {
 	    	    System.out.println("progressProperty changed from " + oldValue + " to " + newValue);
-	    	    avancement.setText(newValue.toString());
+	    	    avancementDuLearn.setText(newValue.toString());
 	     });
+	     */
 	     
 			Thread t = new Thread(task);
 			t.setDaemon(true);
 			t.start();
-			//task.run();
-			
-			
-			//String args[] = null;
-			//Test.main(args);
-			//avancement.setText("Fin");
-			//t.start();
-			//t.run();
+			lancerDuLearn.setDisable(true);
 		});
 		
 	}
 	
+	//mise à jour des progressBars
 	public static void messageDuLearning (String s) {
-		Label avancement = (Label) scene.lookup("#avancement");
-		avancement.setText(s);
+		Label avancementDuLearn = (Label) scene.lookup("#avancementDuLearn");
+		avancementDuLearn.setText(s);
+	}
+	public static void progressBarEtIndicatorDuLearning (float progression) {
+		ProgressBar progressBarDuLearn = (ProgressBar) scene.lookup("#progressBarDuLearn");
+		ProgressIndicator progressIndicatorDuLearn = (ProgressIndicator) scene.lookup("#progressIndicatorDuLearn");
+		progressBarDuLearn.setProgress(progression);
+		progressIndicatorDuLearn.setProgress(progression);
 	}
 	
 	public static void main(String[] args) {

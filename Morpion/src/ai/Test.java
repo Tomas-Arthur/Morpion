@@ -98,10 +98,16 @@ public class Test{
 						public void run() {
 							Main.messageDuLearning(s);
 						}
-					});
-					
-					
+					});	
 				}
+				
+				//progressBar
+				float progression = (float) (i/epochs);
+				Platform.runLater(new Runnable() {
+					public void run() {
+						Main.progressBarEtIndicatorDuLearning(progression);
+					}
+				});	
 				
 			}
 			if ( verbose ) 
