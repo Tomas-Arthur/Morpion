@@ -2,6 +2,7 @@ package application;
 import ai.Test;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -52,11 +53,23 @@ public class Main extends Application implements Runnable{
 
 		lancer.setOnMouseClicked(event ->{
 
-			Task<Integer> task = new Task<Integer>() {
-	         @Override protected Integer call() throws Exception {
-	             int iterations;
-	             for (iterations = 0; iterations < 1000000; iterations++) {
-	            	 System.out.print("coucou");
+			Task<Void> task = new Task<Void>() {
+	         @Override protected Void call() throws Exception {
+	             int iterations=0;
+	             Test.main(null);
+	             Platform.runLater(new Runnable() {
+						public void run() {
+							avancement.setText("Fin");
+						}
+					});
+	             Thread.sleep(1000);
+	             Platform.runLater(new Runnable() {
+					public void run() {
+						avancement.setText("...");
+					}
+				});
+	             /*for (iterations = 0; iterations < 10000000; iterations++) {
+	            	 System.out.println("Iteration " + iterations);
 	                 if (isCancelled()) {
 	                     updateMessage("Cancelled");
 	                     break;
@@ -64,9 +77,9 @@ public class Main extends Application implements Runnable{
 	                 //notify();
 	                 updateMessage("Iteration " + iterations);
 	                 
-	                 updateProgress(iterations, 1000000);
-	             }
-	             return iterations;
+	                 updateProgress(iterations, 10000);
+	             }*/
+				return null;
 	         }
 	     };
 	     task.progressProperty().addListener((observable, oldValue, newValue) -> {
@@ -89,7 +102,7 @@ public class Main extends Application implements Runnable{
 		
 	}
 	
-	public static void action (String s) {
+	public static void messageDuLearning (String s) {
 		Label avancement = (Label) scene.lookup("#avancement");
 		avancement.setText(s);
 	}
