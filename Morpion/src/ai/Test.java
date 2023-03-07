@@ -85,6 +85,14 @@ public class Test{
 			}
 			//TRAINING ...
 			for(int i = 0; i < epochs; i++){
+				/*
+				String s = String.valueOf((i/epochs *100));
+				System.out.println(s);
+				Platform.runLater(new Runnable() {
+					public void run() {
+						Main.messageDuLearning(s);
+					}
+				});*/
 				Coup c = null ;
 				while ( c == null )
 					c = mapTrain.get((int)(Math.round(Math.random() * mapTrain.size())));
@@ -92,6 +100,7 @@ public class Test{
 				error += net.backPropagate(c.in, c.out);
 
 				if ( i % 10000 == 0 && verbose) {
+
 					String s ="Error at step "+i+" is "+ (error/(double)i);
 					System.out.println(s);
 					Platform.runLater(new Runnable() {
@@ -99,6 +108,7 @@ public class Test{
 							Main.messageDuLearning(s);
 						}
 					});	
+
 				}
 				
 				//progressBar
