@@ -1,8 +1,15 @@
 package application;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 
@@ -29,6 +36,8 @@ public class Main extends Application{
 
 			Controller.setPrimaryStage(Main.primaryStage);
 			Controller.setPrimaryScene(menu);
+			
+			Controller.fenetreMenu(menu);
 
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -36,9 +45,9 @@ public class Main extends Application{
 	}
 
 
+
 	public static void main(String[] args) {
 		launch(args);
-
 	}
 
 	/*
