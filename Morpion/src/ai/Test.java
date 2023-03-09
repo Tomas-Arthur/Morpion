@@ -9,6 +9,7 @@ import java.util.Arrays;
 //
 import java.util.HashMap;
 
+import application.Controller;
 import application.Main;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -49,6 +50,10 @@ public class Test{
 			c = mapTrain.get((int)(Math.round(Math.random() * mapTest.size())));
 			res = play(net, c);
 			System.out.println("Test predicted: "+Arrays.toString(res) + " -> true: "+ Arrays.toString(c.out));
+			
+			
+			//save
+			//net.save(null);
 		} 
 		catch (Exception e) {
 			System.out.println("Test.main()");
@@ -85,39 +90,18 @@ public class Test{
 			}
 			//TRAINING ...
 			for(int i = 0; i < epochs; i++){
-				/*
-				String s = String.valueOf((i/epochs *100));
-				System.out.println(s);
-				Platform.runLater(new Runnable() {
-					public void run() {
-						Main.messageDuLearning(s);
-					}
-				});*/
 				Coup c = null ;
 				while ( c == null )
 					c = mapTrain.get((int)(Math.round(Math.random() * mapTrain.size())));
 
 				error += net.backPropagate(c.in, c.out);
 
+				//message
 				if ( i % 10000 == 0 && verbose) {
-
 					String s ="Error at step "+i+" is "+ (error/(double)i);
 					System.out.println(s);
-					Platform.runLater(new Runnable() {
-						public void run() {
-							Main.messageDuLearning(s);
-						}
-					});	
 
 				}
-				
-				//progressBar
-				float progression = (float) (i/epochs);
-				Platform.runLater(new Runnable() {
-					public void run() {
-						Main.progressBarEtIndicatorDuLearning(progression);
-					}
-				});	
 				
 			}
 			if ( verbose ) 

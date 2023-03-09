@@ -37,7 +37,7 @@
       </AnchorPane>
    </top>
    <center>
-      <Label id="avancementDuLearn" alignment="CENTER" prefHeight="18.0" prefWidth="135.0" text="..." BorderPane.alignment="CENTER" />
+      <Label id="avancementDuLearn" alignment="CENTER" prefHeight="18.0" prefWidth="321.0" text="..." BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <GridPane BorderPane.alignment="CENTER">
