@@ -57,6 +57,10 @@ public class Main extends Application implements Runnable{
 			this.primaryStage = primaryStage;
 			// Load root layout from fxml file
 			FXMLLoader loader = new FXMLLoader();
+			
+			//
+			//loader à decommenter selon la fenetre voulu (pas deux a la fois)			//
+			
 			//loader.setLocation(Main.class.getResource("Sample.fxml"));
 			//loader.setLocation(Main.class.getResource("Setting.fxml"));
 			//loader.setLocation(Main.class.getResource("Delete.fxml"));
@@ -71,6 +75,11 @@ public class Main extends Application implements Runnable{
 
 			this.scene=scene;
 			Controller.setScene(scene);
+			
+			//
+			//fonction a décommenter selon le loader prix
+			//
+			
 			//Controller.fenetreApprentissage(scene);
 			//Controller.fenetreSetting(scene);
 			//Controller.fenetreDelete();
