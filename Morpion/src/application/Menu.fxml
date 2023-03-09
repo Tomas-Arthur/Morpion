@@ -5,22 +5,20 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="IA">
             <items>
-              <MenuItem id="settings" mnemonicParsing="false" text="Settings" />
-                  <MenuItem id="models" mnemonicParsing="false" text="Models" />
+              <MenuItem id="settings" fx:id="settings" mnemonicParsing="false" onAction="#lancerSettings" text="Settings" />
+                  <MenuItem id="models" fx:id="models" mnemonicParsing="false" onAction="#lancerModels" text="Models" />
             </items>
           </Menu>
-            <Menu id="learn" mnemonicParsing="false" text="Learn">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
+            <Menu mnemonicParsing="false" text="Learn">
+               <items>
+                  <MenuItem fx:id="learn" mnemonicParsing="false" onAction="#lancerLearn" text="Learn" />
+               </items></Menu>
         </menus>
       </MenuBar>
    </top>

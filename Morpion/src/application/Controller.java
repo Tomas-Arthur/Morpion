@@ -17,6 +17,7 @@ import ai.SigmoidalTransferFunction;
 import ai.Test;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,20 +30,156 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class Controller {
 	
-	private static Scene scene;
-
-	public static Scene getScene() {
-		return scene;
+	private static Stage primaryStage;
+	private static Scene primaryScene;
+	
+	public static Stage getPrimaryStage() {
+		return primaryStage;
 	}
 
-	public static void setScene(Scene scene) {
-		Controller.scene = scene;
+	public static void setPrimaryStage(Stage primaryStage) {
+		Controller.primaryStage = primaryStage;
+	}
+
+	public static Scene getPrimaryScene() {
+		return primaryScene;
+	}
+
+	public static void setPrimaryScene(Scene primaryScene) {
+		Controller.primaryScene = primaryScene;
+	}
+
+	@FXML
+	public void lancerModels() {
+		System.out.println("Fenetre des models lancée.");
+		try {
+
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("delete.fxml"));
+
+			BorderPane borderPane;
+			borderPane = (BorderPane) loader.load();
+
+
+			Scene secondScene = new Scene(borderPane, 800, 600);
+			secondScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+
+			// New window (Stage)
+			Stage models = new Stage();
+			models.setTitle("Models");
+			models.setScene(secondScene);
+
+			// Specifies the modality for new window.
+			models.initModality(Modality.WINDOW_MODAL);
+
+			// Specifies the owner Window (parent) for new window
+			models.initOwner(primaryStage);
+
+			// Set position of second window, related to primary window.
+			models.setX(primaryStage.getX());
+			models.setY(primaryStage.getY());
+
+
+			Controller.fenetreDelete(secondScene, models);
+
+			models.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	public void lancerSettings() {
+
+		System.out.println("Fenetre des parametres lancée.");
+		try {
+
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("Setting.fxml"));
+
+			BorderPane borderPane;
+			borderPane = (BorderPane) loader.load();
+
+
+			Scene secondScene = new Scene(borderPane, 800, 600);
+			secondScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+
+			// New window (Stage)
+			Stage settings = new Stage();
+			settings.setTitle("Settings");
+			settings.setScene(secondScene);
+
+			// Specifies the modality for new window.
+			settings.initModality(Modality.WINDOW_MODAL);
+
+			// Specifies the owner Window (parent) for new window
+			settings.initOwner(primaryStage);
+
+			// Set position of second window, related to primary window.
+			settings.setX(primaryStage.getX());
+			settings.setY(primaryStage.getY());
+
+
+			Controller.fenetreSetting(secondScene, settings);
+
+			settings.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	public void lancerLearn() {
+
+		System.out.println("Fenetre d'apprentissage lancée.");
+		try {
+
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("Sample.fxml"));
+
+			BorderPane borderPane;
+			borderPane = (BorderPane) loader.load();
+
+
+			Scene secondScene = new Scene(borderPane, 800, 600);
+			secondScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+
+			// New window (Stage)
+			Stage learn = new Stage();
+			learn.setTitle("Learn");
+			learn.setScene(secondScene);
+
+			// Specifies the modality for new window.
+			learn.initModality(Modality.WINDOW_MODAL);
+
+			// Specifies the owner Window (parent) for new window
+			learn.initOwner(primaryStage);
+
+			// Set position of second window, related to primary window.
+			learn.setX(primaryStage.getX());
+			learn.setY(primaryStage.getY());
+
+
+			Controller.fenetreApprentissage(secondScene, learn);
+
+			learn.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public static void fenetreDelete() {
+	public static void fenetreDelete(Scene scene, Stage stage) {
 		//
 		// LOAD CONFIG ...
 		//
@@ -103,13 +240,13 @@ public class Controller {
 						            }
 						    	}
 						    }
-						Platform.exit();
+						stage.close();
 					});
 		    	}
 			}
 	}
 	
-	public static void fenetreSetting(Scene scene) {
+	public static void fenetreSetting(Scene scene, Stage stage) {
 		//
 		// LOAD CONFIG ...
 		//
@@ -175,7 +312,8 @@ public class Controller {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Platform.exit();
+				stage.close();
+				System.out.println("Retour au menu, les modification on été pris en compte.");
 			});
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -187,7 +325,7 @@ public class Controller {
 		
 	}
 
-	public static void fenetreApprentissage(Scene scene) {
+	public static void fenetreApprentissage(Scene scene, Stage stage) {
 		
 		
 		Label avancementDuLearn = (Label) scene.lookup("#avancementDuLearn"); 
@@ -265,7 +403,7 @@ public class Controller {
 	 						System.out.println(s);
 	 						Platform.runLater(new Runnable() {
 	 							public void run() {
-	 								messageDuLearning(s);
+	 								messageDuLearning(s,scene);
 	 							}
 	 						});	
 
@@ -275,7 +413,7 @@ public class Controller {
 	 					float progression = (float) (i/epochs);
 	 					Platform.runLater(new Runnable() {
 	 						public void run() {
-	 							progressBarEtIndicatorDuLearning(progression);
+	 							progressBarEtIndicatorDuLearning(progression,scene);
 	 						}
 	 					});	
 	 					
@@ -332,12 +470,12 @@ public class Controller {
 	}
 	
 	//mise à jour du message dans a fenetre learning
-	public static void messageDuLearning (String s) {
+	public static void messageDuLearning (String s, Scene scene) {
 		Label avancementDuLearn = (Label) scene.lookup("#avancementDuLearn");
 		avancementDuLearn.setText(s);
 	}
 	//mise à jour des progressBars dans a fenetre learning
-	public static void progressBarEtIndicatorDuLearning (float progression) {
+	public static void progressBarEtIndicatorDuLearning (float progression, Scene scene) {
 		ProgressBar progressBarDuLearn = (ProgressBar) scene.lookup("#progressBarDuLearn");
 		ProgressIndicator progressIndicatorDuLearn = (ProgressIndicator) scene.lookup("#progressIndicatorDuLearn");
 		progressBarDuLearn.setProgress(progression);
