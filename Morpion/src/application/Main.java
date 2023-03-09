@@ -18,12 +18,6 @@ public class Main extends Application{
 			// Load root layout from fxml file
 			FXMLLoader loader = new FXMLLoader();
 
-			//
-			//loader à decommenter selon la fenetre voulu (pas deux a la fois)			//
-
-			//loader.setLocation(Main.class.getResource("Sample.fxml"));
-			//loader.setLocation(Main.class.getResource("Setting.fxml"));
-			//loader.setLocation(Main.class.getResource("Delete.fxml"));
 			loader.setLocation(Main.class.getResource("Menu.fxml"));
 			BorderPane borderPane = (BorderPane) loader.load();
 			Scene menu= new Scene(borderPane,800,600);
@@ -35,13 +29,6 @@ public class Main extends Application{
 
 			Controller.setPrimaryStage(Main.primaryStage);
 			Controller.setPrimaryScene(menu);
-			//
-			//fonction a décommenter selon le loader prix
-			//
-
-			//Controller.fenetreApprentissage(scene);
-			//Controller.fenetreSetting(scene);
-			//Controller.fenetreDelete();
 
 		} catch(Exception e) {
 			e.printStackTrace();
