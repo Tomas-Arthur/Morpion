@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Random;
 
 import ai.Config;
 import ai.ConfigFileLoader;
@@ -17,9 +18,12 @@ import ai.SigmoidalTransferFunction;
 import ai.Test;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,8 +31,10 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -37,6 +43,9 @@ public class Controller {
 
 	private static Stage primaryStage;
 	private static Scene primaryScene;
+	private static boolean player1;
+	private static boolean played;
+	private static double [] tabGame = new double[9];
 
 	public static Stage getPrimaryStage() {
 		return primaryStage;
@@ -59,7 +68,15 @@ public class Controller {
 		Button facile = (Button) scene.lookup("#facile");
 		Button moyen = (Button) scene.lookup("#moyen");
 		Button difficile = (Button) scene.lookup("#difficile");
+		Button commencer = (Button) scene.lookup("#commencer");
 
+		//si le bouton commencer est appuye
+		commencer.setOnAction(event->{
+			gameWindow();
+		});
+		
+		
+		
 		//si le bouton facile est appuye
 		facile.setOnMouseClicked(event ->{
 
@@ -673,4 +690,280 @@ public class Controller {
 		progressIndicatorDuLearn.setProgress(progression);
 	}
 
+	
+	public static void gameWindow()
+	{
+		
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("board.fxml"));
+		//Label secondLabel = new Label("I'm a Label on new Window");
+
+		BorderPane secondaryLayout;
+		
+		try {
+			secondaryLayout = loader.load();
+		
+		//secondaryLayout.getChildren().add(secondLabel);
+		
+		
+		//secondaryLayout.getChildren().add(config);
+		Scene secondScene = new Scene(secondaryLayout, 800, 600);
+
+		
+		// New window (Stage)
+		Stage newWindow = new Stage();
+		newWindow.setTitle("Morpion");
+		newWindow.setScene(secondScene);
+		Button b0 = (Button) secondScene.lookup("#B0");
+		Button b1 = (Button) secondScene.lookup("#B1");
+		Button b2 = (Button) secondScene.lookup("#B2");
+		Button b3 = (Button) secondScene.lookup("#B3");
+		Button b4 = (Button) secondScene.lookup("#B4");
+		Button b5 = (Button) secondScene.lookup("#B5");
+		Button b6 = (Button) secondScene.lookup("#B6");
+		Button b7 = (Button) secondScene.lookup("#B7");
+		Button b8 = (Button) secondScene.lookup("#B8");
+		
+		// Specifies the modality for new window.
+		newWindow.initModality(Modality.WINDOW_MODAL);
+
+		// Specifies the owner Window (parent) for new window
+		newWindow.initOwner(primaryStage);
+
+		// Set position of second window, related to primary window.
+		newWindow.setX(primaryStage.getX() );
+		newWindow.setY(primaryStage.getY() );
+		
+		for(int i =0;i<9;i++)
+		{
+			tabGame[i] = -1;
+		}
+		
+		b0.setOnAction(e->{	played(e,b0);});
+		b1.setOnAction(e->{	played(e,b1);});
+		b2.setOnAction(e->{	played(e,b2);});
+		b3.setOnAction(e->{	played(e,b3);});
+		b4.setOnAction(e->{	played(e,b4);});
+		b5.setOnAction(e->{	played(e,b5);});
+		b6.setOnAction(e->{	played(e,b6);});
+		b7.setOnAction(e->{	played(e,b7);});
+		b8.setOnAction(e->{	played(e,b8);});
+		
+		newWindow.show();
+		
+		// on choisi qui commence
+		int start = (int) ((Math.random() * (3 - 1)) + 1);
+		 if(start == 1)
+		 {
+			 
+			 player1 = true;
+		 }
+		 if(start == 2)
+		 {
+			 
+			 player1=false;
+		 }
+
+		game();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	 static void game()
+	{
+		 
+		if(!win())
+		 {
+			 if(player1)
+			 {
+				 System.out.print("au tour du joueur 1");
+				 
+			 }
+			 else
+			 {
+				 System.out.print("au tour du joueur 2");
+			 }
+		 }
+		 
+	}
+	 
+	 static boolean win()
+	 {
+		 if(testWin()== 1)
+		 {
+			 System.out.print(" Player 1 win");
+			 return true;
+		 }
+		 else if (testWin()== 2)
+		 {
+			 System.out.print(" Player 2 win");
+			 return true;
+		 }
+		 else
+		 return false;
+	 }
+	 
+	 static int testWin()
+	 {
+		 // premiere ligne 
+		 if((tabGame[0] >-1 && tabGame[1] >-1 && tabGame[2] >-1)&&(tabGame[0] == tabGame[1]  && tabGame[2] == tabGame[1] ))
+		 {
+			 if(tabGame[0] == 1) // 1 dans le tableau == rond
+			 {
+				 //System.out.print("Player 2 win");
+				 return 2 ;
+			 }
+			 
+		 }
+		 // deuxieme ligne 
+		 if((tabGame[3] >-1 && tabGame[4] >-1 && tabGame[5] >-1)&&(tabGame[3] == tabGame[4]  && tabGame[5] == tabGame[3] ))
+		 {
+			 if(tabGame[3] == 1) // 1 dans le tableau == rond
+			 return 2 ;
+		 }
+		 //troisieme ligne
+		 if((tabGame[6] >-1 && tabGame[7] >-1 && tabGame[8] >-1)&&(tabGame[6] == tabGame[7]  && tabGame[8] == tabGame[6] ))
+		 {
+			 if(tabGame[6] == 1) // 1 dans le tableau == rond
+			 return 2 ;
+		 }
+		 ////////////////////////////////
+		 // premiere colone 
+		 if((tabGame[0] >-1 && tabGame[3] >-1 && tabGame[6] >-1)&&(tabGame[0] == tabGame[3]  && tabGame[0] == tabGame[6] ))
+		 {
+			 if(tabGame[0] == 1) // 1 dans le tableau == rond
+			 {
+				 //System.out.print("Player 2 win");
+				 return 2 ;
+			 }
+			 
+		 }
+		 // deuxieme colone 
+		 if((tabGame[1] >-1 && tabGame[4] >-1 && tabGame[7] >-1)&&(tabGame[1] == tabGame[4]  && tabGame[1] == tabGame[7] ))
+		 {
+			 if(tabGame[1] == 1) // 1 dans le tableau == rond
+			 return 2 ;
+		 }
+		 //troisieme colone
+		 if((tabGame[2] >-1 && tabGame[5] >-1 && tabGame[8] >-1)&&(tabGame[2] == tabGame[5]  && tabGame[8] == tabGame[2] ))
+		 {
+			 if(tabGame[2] == 1) // 1 dans le tableau == rond
+			 return 2 ;
+		 }
+		 //////////////////////////////////
+		 //diagonale gauche -> droite
+		 if((tabGame[0] >-1 && tabGame[4] >-1 && tabGame[8] >-1)&&(tabGame[0] == tabGame[4]  && tabGame[0] == tabGame[8] ))
+		 {
+			 if(tabGame[0] == 1) // 1 dans le tableau == rond
+			 return 2 ;
+		 }
+		//diagonale droite -> gauche
+		 if((tabGame[2] >-1 && tabGame[4] >-1 && tabGame[6] >-1)&&(tabGame[2] == tabGame[4]  && tabGame[2] == tabGame[6] ))
+		 {
+			 if(tabGame[2] == 1) // 1 dans le tableau == rond
+			 return 2 ;
+		 }
+		 
+		 // verif pour les croix
+		 
+		// premiere ligne 
+				 if((tabGame[0] >-1 && tabGame[1] >-1 && tabGame[2] >-1)&&(tabGame[0] == tabGame[1]  && tabGame[2] == tabGame[1] ))
+				 {
+					 if(tabGame[0] == 0) // 0 dans le tableau == croix
+					 return 1 ;
+				 }
+				 // deuxieme ligne 
+				 if((tabGame[3] >-1 && tabGame[4] >-1 && tabGame[5] >-1)&&(tabGame[3] == tabGame[4]  && tabGame[5] == tabGame[3] ))
+				 {
+					 if(tabGame[3] == 0) // 0 dans le tableau == croix
+					 return 1 ;
+				 }
+				 //troisieme ligne
+				 if((tabGame[6] >-1 && tabGame[7] >-1 && tabGame[8] >-1)&&(tabGame[6] == tabGame[7]  && tabGame[8] == tabGame[6] ))
+				 {
+					 if(tabGame[6] == 0) // 0 dans le tableau == croix
+					 return 1 ;
+				 }
+				 ///////////////////////////////
+				// premiere colone 
+				 if((tabGame[0] >-1 && tabGame[3] >-1 && tabGame[6] >-1)&&(tabGame[0] == tabGame[3]  && tabGame[0] == tabGame[6] ))
+				 {
+					 if(tabGame[0] == 0) // 1 dans le tableau == rond
+					 {
+						 //System.out.print("Player 2 win");
+						 return 2 ;
+					 }
+					 
+				 }
+				 // deuxieme colone 
+				 if((tabGame[1] >-1 && tabGame[4] >-1 && tabGame[7] >-1)&&(tabGame[1] == tabGame[4]  && tabGame[1] == tabGame[7] ))
+				 {
+					 if(tabGame[1] == 0) // 1 dans le tableau == rond
+					 return 2 ;
+				 }
+				 //troisieme colone
+				 if((tabGame[2] >-1 && tabGame[5] >-1 && tabGame[8] >-1)&&(tabGame[2] == tabGame[5]  && tabGame[8] == tabGame[2] ))
+				 {
+					 if(tabGame[2] == 0) // 1 dans le tableau == rond
+					 return 2 ;
+				 }
+				 //////////////////////////////
+				 //diagonale gauche -> droite
+				 if((tabGame[0] >-1 && tabGame[4] >-1 && tabGame[8] >-1)&&(tabGame[0] == tabGame[4]  && tabGame[0] == tabGame[8] ))
+				 {
+					 if(tabGame[0] == 0) // 0 dans le tableau == croix
+					 return 1 ;
+				 }
+				//diagonale droite -> gauche
+				 if((tabGame[2] >-1 && tabGame[4] >-1 && tabGame[6] >-1)&&(tabGame[2] == tabGame[4]  && tabGame[2] == tabGame[6] ))
+				 {
+					 if(tabGame[2] == 0) // 0 dans le tableau == croix
+					 return 1 ;
+				 }
+		return -1;
+		 
+	 }
+	 
+	public static void played(Event it, Button b)
+	 {
+		if(player1 && b.getText() == "")
+		{
+			
+			//System.out.print("button nb : "+b.getId().replace("B", "")+'\n');
+			String i = b.getId().replace( "B", "");
+			tabGame[Integer.parseInt(i)] = 1;
+			b.setText("X");
+			player1 = !player1;
+			game();
+			
+		}
+		else if(!player1 && b.getText() == "")
+		{
+			
+			//System.out.print("button nb : "+b.getId().replace("B", "")+'\n');
+			String i = b.getId().replace( "B", "");
+			tabGame[Integer.parseInt(i)] = 0;
+			b.setText("O");
+			player1 = !player1;
+			game();
+		}
+		 //
+		//afficheTab();
+		 
+	 }
+	
+	static void afficheTab()
+	{
+		System.out.print("new affichage "+'\n');
+		for(int i =0 ; i<9;i++)
+		{
+			System.out.print("cell : "+i +"value : "+tabGame[i]+'\n');
+		}
+	}
+	
 }

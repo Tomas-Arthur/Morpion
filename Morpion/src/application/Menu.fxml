@@ -38,7 +38,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Commencer !" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.valignment="CENTER" />
+            <Button id="commencer" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Commencer !" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.valignment="CENTER" />
             <Button id="facile" mnemonicParsing="false" prefHeight="50.0" prefWidth="60.0" text="Facile" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10">
                <GridPane.margin>
                   <Insets />
